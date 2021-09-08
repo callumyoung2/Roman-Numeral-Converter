@@ -1,0 +1,78 @@
+# Class that converts Roman numerals to integers and vice-versa (up to a max integer value of 3999)
+# Challenge originally taken from: https://www.codewars.com
+# Callum Young 2021
+
+
+class RomanNumerals:
+    
+    
+    def to_roman(integer):
+        
+        romanDict = { # Dictionary that stores unit values (along with 10) and the corresponding Roman numeral
+            # Y in this dictionary is an arbitrary value that represents 1
+            # Z in this dictionary is an arbitrary value that represents 5
+            # A in this dictionary is an arbitrary value that represents 10
+            # The values are represented in this way so that they can be replaced by the correct string values
+            # e.g to represent 5, if 5 represented 500, Z would be replaced by "L"
+            1 : "Y",
+            2 : "YY",
+            3 : "YYY",
+            4 : "YZ",
+            5 : "Z",
+            6 : "ZY",
+            7 : "ZYY",
+            8 : "ZYYY",
+            9 : "YA",
+            0 : "" # 0 does not have a corresponding character in Roman numerals
+
+        }
+        intAsString = str(integer) #converts integer to a string so that intAsString can be manipulated more easily
+        if len(intAsString) != 4: #this if statement changes the length of intAsString to 4.
+            #For example, the number 10 would become 0010. This is done so that the later algorithm always deals with the same amount of digits.
+            if len(intAsString) == 3:
+                intAsString = "0"+intAsString
+            if len(intAsString) == 2:
+                intAsString = "00"+intAsString
+            if len(intAsString) == 1:
+                intAsString = "000"+intAsString
+        
+        digitArray = list(intAsString) # Converts intAsString to a list so that the digits can be stored individually in digitArray.
+        romanArray = [["M","-","-"],["C","D","M"],["X","L","C"],["I","V","X"]] # romanArray stores the Roman values of 1,5 and 10 for the thousands, hundreds, tens and unit digits.
+        romanVal = "" #Initializes romanVal as a blank string so that the digits can be added later
+        for j in range(len(romanArray)):
+            currentVal = romanDict[int(digitArray[j])] #currentVal stores the Roman value that corresponds to the current digit.
+            currentVal = currentVal.replace("Y",romanArray[j][0]) #Replaces the arbitrary letters with the correct numerals for the current digit.
+            currentVal = currentVal.replace("Z",romanArray[j][1])
+            currentVal = currentVal.replace("A",romanArray[j][2])
+            romanVal += currentVal
+        return romanVal
+        
+    def from_roman(romanVal):
+        romanDict = { # Dictionary that stores the numeric values of the roman numerals
+            "I" : 1,
+            "V" : 5,
+            "X" : 10,
+            "L" : 50,
+            "C" : 100,
+            "D" : 500,
+            "M" : 1000
+        }
+        
+        romanList = list(romanVal) #creates a list of the characters in romanVal
+        numberList = [] #This list will store the numeric values of each numeral in romanList.
+        for i in range(len(romanList)): #This loop creates numberList, as specified above.
+            newVal = romanDict[romanList[i]]
+            numberList.append(newVal)
+        
+        for i in range(1, len(numberList)): #This loop compares each value in numberList to the value directly preceeding it.
+            #If a smaller value comes before a larger one, it is made negative
+            if numberList[i] > numberList[i-1]:
+                numberList[i-1] = -numberList[i-1]
+                
+                
+        #Now all the numbers in numberList are added together to produce the total.
+        total = 0
+        for i in range(len(numberList)):
+            total += numberList[i]
+    
+        return total                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
