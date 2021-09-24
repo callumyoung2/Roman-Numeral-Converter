@@ -7,7 +7,11 @@ class RomanNumerals:
     
     
     def to_roman(integer):
-        
+        '''
+        Takes an integer value and converts it to a Roman Numeral
+        :param integer: the integer that will be converted
+        :return: the converted Roman numeral
+        '''
         romanDict = { # Dictionary that stores unit values (along with 10) and the corresponding Roman numeral
             # Y in this dictionary is an arbitrary value that represents 1
             # Z in this dictionary is an arbitrary value that represents 5
@@ -38,16 +42,21 @@ class RomanNumerals:
         
         digitArray = list(intAsString) # Converts intAsString to a list so that the digits can be stored individually in digitArray.
         romanArray = [["M","-","-"],["C","D","M"],["X","L","C"],["I","V","X"]] # romanArray stores the Roman values of 1,5 and 10 for the thousands, hundreds, tens and unit digits.
-        romanVal = "" #Initializes romanVal as a blank string so that the digits can be added later
+        romanNum = "" #Initializes romanVal as a blank string so that the digits can be added later
         for j in range(len(romanArray)):
-            currentVal = romanDict[int(digitArray[j])] #currentVal stores the Roman value that corresponds to the current digit.
-            currentVal = currentVal.replace("Y",romanArray[j][0]) #Replaces the arbitrary letters with the correct numerals for the current digit.
-            currentVal = currentVal.replace("Z",romanArray[j][1])
-            currentVal = currentVal.replace("A",romanArray[j][2])
-            romanVal += currentVal
-        return romanVal
+            currentNum = romanDict[int(digitArray[j])] #currentVal stores the Roman value that corresponds to the current digit.
+            currentNum = currentNum.replace("Y",romanArray[j][0]) #Replaces the arbitrary letters with the correct numerals for the current digit.
+            currentNum = currentNum.replace("Z",romanArray[j][1])
+            currentNum = currentNum.replace("A",romanArray[j][2])
+            romanNum += currentNum
+        return romanNum
         
-    def from_roman(romanVal):
+    def from_roman(romanNum):
+        '''
+        Takes an Roman numeral and converts it to an integer
+        :param romanNum: the Roman numeral that will be converted
+        :return: the converted integer
+        '''
         romanDict = { # Dictionary that stores the numeric values of the roman numerals
             "I" : 1,
             "V" : 5,
@@ -58,7 +67,7 @@ class RomanNumerals:
             "M" : 1000
         }
         
-        romanList = list(romanVal) #creates a list of the characters in romanVal
+        romanList = list(romanNum) #creates a list of the characters in romanVal
         numberList = [] #This list will store the numeric values of each numeral in romanList.
         for i in range(len(romanList)): #This loop creates numberList, as specified above.
             newVal = romanDict[romanList[i]]
